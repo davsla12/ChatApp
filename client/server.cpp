@@ -14,7 +14,7 @@ ENetHost* sr_init(){
 
     atexit(enet_deinitialize);
 
-    ENetHost* client = enet_host_create(NULL, 1, 2, 0, 0);
+    client = enet_host_create(NULL, 1, 2, 0, 0);
 
     if (!client) {
         printf("Nelze vytvořit klienta\n");
