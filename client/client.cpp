@@ -2,45 +2,15 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "./server.h"
+
+ENetEvent event;
+
 int main()
 {
-    if (enet_initialize() != 0) {
-        printf("Chyba ENet\n");
-        return 1;
-    }
 
-    atexit(enet_deinitialize);
-
-    ENetHost* client = enet_host_create(NULL, 1, 2, 0, 0);
-
-    if (!client) {
-        printf("Nelze vytvořit klienta\n");
-        return 1;
-    }
-
-    ENetAddress address;
-    ENetEvent event;
-
-    enet_address_set_host(&address, "127.0.0.1");
-    address.port = 1234;
-
-    ENetPeer* peer = enet_host_connect(client, &address, 2, 0);
-
-    if (!peer) {
-        printf("Nelze se připojit\n");
-        return 1;
-    }
-
-    if (enet_host_service(client, &event, 5000) > 0 &&
-        event.type == ENET_EVENT_TYPE_CONNECT)
-    {
-        printf("Připojeno k serveru\n");
-    }
-    else {
-        printf("Timeout\n");
-        enet_peer_reset(peer);
-        return 1;
-    }
+    ENetHost* client = sr_init();
+    ENetPeer* peer = sr_connect();
 
     // pošli zprávu
     const char* msg = "Ahoj ze clienta!";
