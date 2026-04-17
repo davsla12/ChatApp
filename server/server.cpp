@@ -39,6 +39,7 @@ int main()
             {
                 case ENET_EVENT_TYPE_CONNECT:
                     printf("Klient připojen\n");
+
                     break;
 
                 case ENET_EVENT_TYPE_RECEIVE:{
