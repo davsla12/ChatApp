@@ -12,7 +12,7 @@ int IDs = 1;
 std::vector<Scane*> Scanes;
 //long long update = 0;
 
-int init_screen(){
+int screen_init(){
     initscr();
     noecho();
     curs_set(0);
@@ -31,6 +31,10 @@ int init_screen(){
     init_pair(5,COLOR_BLACK,COLOR_GREEN);
 
     return 0;
+}
+
+void screen_delete(){
+    endwin();
 }
 
 void CreateWin(Scane* scane,int rows,int collums,int y,int x){
@@ -88,7 +92,7 @@ int SMain(){
     return 0;
 }
 
-int update_scr(){
+int screen_update(){
     for (auto &p : Scanes) {
         werase(p->window);
         box(p->window,0,0);
