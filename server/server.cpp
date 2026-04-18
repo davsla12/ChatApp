@@ -52,7 +52,8 @@ int main()
                         ENET_PACKET_FLAG_RELIABLE
                     );
 
-                    enet_peer_send(event.peer, 0, reply);
+                    //enet_peer_send(event.peer, 0, reply);
+                    enet_host_broadcast(server, 0, reply);
                     enet_packet_destroy(event.packet);
                     break;
                 }

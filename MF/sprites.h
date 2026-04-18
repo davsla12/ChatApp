@@ -2,7 +2,7 @@
 #define SPRITES_H
 #include <iostream>
 
-struct sprite {
+struct Sprite {
     int y = 2;
     int x = 7;
     int color_pair = 0;

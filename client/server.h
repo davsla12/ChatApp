@@ -5,5 +5,6 @@
 
 ENetHost* sr_init();
 ENetPeer* sr_connect();
+int send(const char* msg,int ChannelID = 0);
 
 #endif

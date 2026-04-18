@@ -1,9 +1,0 @@
-#include "../../screen.h"
-Scane SHlavni;
-
-SHlavni_init{
-int maxY = GetSizey(0);
-int maxX = GetSizex(0);
-CreateWin(&SHlavni,3,18,y-3,0);
-return AddScane(&SHlavni);
-}

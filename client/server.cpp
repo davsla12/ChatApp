@@ -1,6 +1,7 @@
 #include <enet/enet.h>
 #include <stdlib.h>
 #include <cstdio>
+#include <cstring>
 
 ENetHost* client;
 ENetAddress address;
@@ -22,6 +23,7 @@ ENetHost* sr_init(){
     }
     return client;
 }
+
 ENetPeer* sr_connect(){
     ENetAddress address;
     ENetEvent event;
@@ -29,7 +31,7 @@ ENetPeer* sr_connect(){
     enet_address_set_host(&address, "127.0.0.1");
     address.port = 1234;
 
-    ENetPeer* peer = enet_host_connect(client, &address, 2, 0);
+    peer = enet_host_connect(client, &address, 2, 0);
 
     if (!peer) {
         printf("Nelze se připojit\n");
@@ -47,4 +49,14 @@ ENetPeer* sr_connect(){
         exit(1);
     }
     return peer;
+}
+
+int send(const char* msg,int ChannelID){
+    ENetPacket* packet = enet_packet_create(
+        msg,
+        strlen(msg) + 1,
+        ENET_PACKET_FLAG_RELIABLE
+    );
+
+    return enet_peer_send(peer, ChannelID, packet);
 }
