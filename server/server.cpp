@@ -1,73 +1,71 @@
 #include <enet/enet.h>
 #include <stdio.h>
+#include <string>
 
-int main()
-{
-    if (enet_initialize() != 0) {
-        fprintf(stderr, "Chyba inicializace ENet\n");
-        return 1;
-    }
+#include "./helpers.h"
+#include "./users.h"
 
-    atexit(enet_deinitialize);
+int main(){
 
-    ENetAddress address;
-    address.host = ENET_HOST_ANY;
-    address.port = 1234;
+  ENetHost* server = sr_init();
 
-    ENetHost* server = enet_host_create(
-        &address,   // adresa
-        32,         // max klientů
-        2,          // kanály
-        0,          // downstream limit
-        0           // upstream limit
-    );
+  ENetEvent event;
 
-    if (!server) {
-        fprintf(stderr, "Nelze vytvořit server\n");
-        return 1;
-    }
+  while (1){
+    while (enet_host_service(server, &event, 1000) > 0){
+      switch (event.type){
+        case ENET_EVENT_TYPE_CONNECT:
+          printf("Klient připojen\n");
+          event.peer->data = new User;
 
-    printf("Server běží na portu 1234...\n");
+          break;
 
-    ENetEvent event;
+        case ENET_EVENT_TYPE_RECEIVE:{
+          User* user = (User*)event.peer->data;
+          if(!user->username.empty()){
+          printf("Zpráva: %s\n", event.packet->data);
 
-    while (1)
-    {
-        while (enet_host_service(server, &event, 1000) > 0)
-        {
-            switch (event.type)
-            {
-                case ENET_EVENT_TYPE_CONNECT:
-                    printf("Klient připojen\n");
+          std::string buffer;
+          if(event.packet->data[0] == '/'){
+            std::string arg = std::string((char*)event.packet->data,event.packet->dataLength);
+            buffer = commands(arg);
+            send(event.peer,buffer);
+          }
 
-                    break;
+          else{
+            // echo zpět
+            ENetPacket* reply = enet_packet_create(
+              event.packet->data,
+              event.packet->dataLength,
+              ENET_PACKET_FLAG_RELIABLE
+            );
 
-                case ENET_EVENT_TYPE_RECEIVE:{
-                    printf("Zpráva: %s\n", event.packet->data);
+            //enet_peer_send(event.peer, 0, reply);
+            enet_host_broadcast(server, 0, reply);
+          }
+          enet_packet_destroy(event.packet);
+          }
 
-                    // echo zpět
-                    ENetPacket* reply = enet_packet_create(
-                        event.packet->data,
-                        event.packet->dataLength,
-                        ENET_PACKET_FLAG_RELIABLE
-                    );
+          else{
+            User* user = (User*)event.peer->data;
+            std::string buffer = std::string((char*)event.packet->data,event.packet->dataLength);
+            user->username = buffer;
+          }
 
-                    //enet_peer_send(event.peer, 0, reply);
-                    enet_host_broadcast(server, 0, reply);
-                    enet_packet_destroy(event.packet);
-                    break;
-                }
-
-                case ENET_EVENT_TYPE_DISCONNECT:
-                    printf("Klient odpojen\n");
-                    break;
-
-                default:
-                    break;
-            }
+          break;
         }
-    }
 
-    enet_host_destroy(server);
-    return 0;
+        case ENET_EVENT_TYPE_DISCONNECT:
+          printf("Klient odpojen\n");
+          delete (User*)event.peer->data;
+          break;
+
+        default:
+          break;
+      }
+    }
+  }
+
+  enet_host_destroy(server);
+  return 0;
 }
