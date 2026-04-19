@@ -2,6 +2,8 @@
 #include <MF/screen.h>
 #include "../server.h"
 
+#define BUFFER_SIZE 33
+
 Scane SHlavni;
 
 bool running = true;
@@ -14,16 +16,17 @@ bool Run(){
 
 void SHlavni_input(int key){
   if(key == '\n'){
-    send(buffer.c_str());
+    if(buffer == "\\quit") running = false;
+    else send(buffer.c_str());
     buffer = "";
     buffer_pos = 0;
   }
-  else if(key >-1 && key<256){
+  else if(key >-1 && key<256 && buffer.size() < BUFFER_SIZE){
     buffer.insert(buffer_pos,1,key);
     buffer_pos++;
   }
 
-  else if(key == KEY_RIGHT && buffer_pos < buffer.size()) buffer_pos++;
+  else if(key == KEY_RIGHT && buffer_pos < buffer.size() && buffer_pos < BUFFER_SIZE) buffer_pos++;
   else if(key == KEY_LEFT && buffer_pos) buffer_pos--;
   else if(key == KEY_BACKSPACE && buffer_pos){
     buffer.erase(buffer_pos-1,1);

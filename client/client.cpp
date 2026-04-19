@@ -19,12 +19,8 @@ int main(){
   SLog_init();
   screen_update();
 
-  // pošli zprávu
-  send("Hello world");
-  send("Idk");
-
   // čekej na odpověď
-  while(1){
+  while(Run()){
     while (enet_host_service(client, &event, 50) > 0){
       if (event.type == ENET_EVENT_TYPE_RECEIVE) {
         Log("Server odpovedel: %s", event.packet->data);
