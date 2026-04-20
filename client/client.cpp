@@ -23,7 +23,8 @@ int main(){
   while(Run()){
     while (enet_host_service(client, &event, 50) > 0){
       if (event.type == ENET_EVENT_TYPE_RECEIVE) {
-        Log("Server odpovedel: %s", event.packet->data);
+        Log("Server odpovedel: %.*s", event.packet->dataLength,
+            event.packet->data);
         screen_update();
         enet_packet_destroy(event.packet);
       }

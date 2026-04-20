@@ -1,6 +1,7 @@
 #include <enet/enet.h>
 #include <stdio.h>
 #include <string>
+#include <cstdarg>
 
 ENetHost* server;
 
@@ -40,4 +41,26 @@ int send(ENetPeer* peer,std::string msg,int ChannelID){
     );
 
     return enet_peer_send(peer, ChannelID, packet);
+}
+int sendf(ENetPeer* peer, int channelID, const char* fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+
+    va_list args_copy;
+    va_copy(args_copy, args);
+
+    int len = vsnprintf(nullptr, 0, fmt, args);
+    va_end(args);
+
+    std::string msg(len, '\0');
+    vsnprintf(msg.data(), len + 1, fmt, args_copy);
+    va_end(args_copy);
+
+    ENetPacket* packet = enet_packet_create(
+        msg.c_str(),
+        msg.size(),
+        ENET_PACKET_FLAG_RELIABLE
+    );
+
+    return enet_peer_send(peer, channelID, packet);
 }

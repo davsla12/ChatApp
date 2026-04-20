@@ -3,5 +3,6 @@
 
 ENetHost* sr_init();
 int send(ENetPeer* peer,std::string msg,int ChannelID=0);
+int sendf(ENetPeer* peer, int channelID, const char* fmt, ...);
 
 #endif
