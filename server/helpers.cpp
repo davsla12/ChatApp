@@ -3,6 +3,8 @@
 #include <string>
 #include <cstdarg>
 
+#include "users.h"
+
 ENetHost* server;
 
 ENetHost* sr_init(){
@@ -63,4 +65,26 @@ int sendf(ENetPeer* peer, int channelID, const char* fmt, ...) {
     );
 
     return enet_peer_send(peer, channelID, packet);
+}
+
+void brodcastf(int channelID, const char* fmt, ...){
+  va_list args;
+  va_start(args, fmt);
+
+  va_list args_copy;
+  va_copy(args_copy, args);
+
+  int len = vsnprintf(nullptr, 0, fmt, args);
+  va_end(args);
+
+  std::string msg;
+  msg.resize(len);
+
+  vsnprintf(msg.data(), len + 1, fmt, args_copy);
+  va_end(args_copy);
+
+  std::vector Users = users_get();
+  for(int i = 0;i < Users.size();i++){
+    send(Users[i].peer,msg,channelID);
+  }
 }

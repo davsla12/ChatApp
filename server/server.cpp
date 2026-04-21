@@ -38,13 +38,11 @@ int main(){
 
             else{
               // echo zpět
-              ENetPacket* reply = enet_packet_create(
-                event.packet->data,
-                event.packet->dataLength,
-                ENET_PACKET_FLAG_RELIABLE
-              );
 
-              enet_host_broadcast(server, 0, reply);
+              
+              brodcastf(0,"%s: %.*s",user->username.c_str(),
+                event.packet->dataLength,
+                event.packet->data);
             }
             enet_packet_destroy(event.packet);
           }
@@ -53,8 +51,10 @@ int main(){
             User* user = (User*)event.peer->data;
             std::string buffer = std::string((char*)event.packet->data,event.packet->dataLength);
             user->username = buffer;
+            user->peer = event.peer;
             printf("Klient %s pripojen\n",buffer.c_str());
             sendf(event.peer,0,"Tvoje jmeno je %s",buffer.c_str());
+            users_add(*user);
           }
 
           break;

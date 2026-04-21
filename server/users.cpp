@@ -1,6 +1,8 @@
 #include <string>
 #include "./users.h"
 
+std::vector<User> Users;
+
 std::string commands(std::string str){
   str.erase(0,1);
 
@@ -19,4 +21,12 @@ std::string commands(std::string str){
 
   if(command == "ping") return "pong";
   return command + ">" + args;
+}
+std::vector<User> users_get(){
+  return Users;
+}
+
+void users_add(User user){
+  Users.push_back(user);
+  //printf("Uzivatel %s pridan\n",user.username);
 }
