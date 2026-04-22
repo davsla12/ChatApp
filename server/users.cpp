@@ -30,3 +30,11 @@ void users_add(User user){
   Users.push_back(user);
   //printf("Uzivatel %s pridan\n",user.username);
 }
+void users_rem(User user){
+  for(int i = 0;i<Users.size();i++){
+    if(Users[i].username == user.username){
+      Users.erase(Users.begin() + i);
+      break;
+    }
+  }
+}

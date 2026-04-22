@@ -60,10 +60,13 @@ int main(){
           break;
         }
 
-        case ENET_EVENT_TYPE_DISCONNECT:
-          printf("Klient %s odpojen\n",((User*)event.peer->data)->username.c_str());
+        case ENET_EVENT_TYPE_DISCONNECT: {
+          User* user = (User*)event.peer->data;
+          printf("Klient %s odpojen\n",user->username.c_str());
+          users_rem(*user);
           delete (User*)event.peer->data;
           break;
+        }
 
         default:
           break;

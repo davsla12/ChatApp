@@ -20,8 +20,9 @@ void Log(const char *fmt, ...) {
 }
 
 void SLog_render(){
-  for(int y = 0;y < log_buffer.size();y++){
-    mvwprintw(SLog.window,y+1,1,"%s",log_buffer[y].c_str());
+  int screen_y = GetSizey(SLog.ID)-2;
+  for(int y = log_buffer.size()-1;y >= 0;y--){
+    mvwprintw(SLog.window,screen_y-y,1,"%s",log_buffer[y].c_str());
   }
 }
 
