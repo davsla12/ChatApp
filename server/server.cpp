@@ -39,7 +39,7 @@ int main(){
             else{
               // echo zpět
 
-              
+
               brodcastf(0,"%s: %.*s",user->username.c_str(),
                 event.packet->dataLength,
                 event.packet->data);
@@ -49,14 +49,15 @@ int main(){
 
           else{
             User* user = (User*)event.peer->data;
-            std::string buffer = std::string((char*)event.packet->data,event.packet->dataLength);
-            user->username = buffer;
-            user->peer = event.peer;
-            printf("Klient %s pripojen\n",buffer.c_str());
-            sendf(event.peer,0,"Tvoje jmeno je %s",buffer.c_str());
-            users_add(*user);
+            std::string buffer = std::string((char*)event.packet->data,event.packet->dataLength-1);
+            if(!nickname(user,buffer))sendf(event.peer,0,"Neplatne jmeno: %s",buffer.c_str());
+            else{
+              user->peer = event.peer;
+              printf("Klient %s pripojen\n",buffer.c_str());
+              sendf(event.peer,0,"Tvoje jmeno je %s",buffer.c_str());
+              users_add(*user);
+            }
           }
-
           break;
         }
 

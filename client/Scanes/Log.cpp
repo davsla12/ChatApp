@@ -8,6 +8,7 @@ Scane SLog;
 std::vector<std::string> log_buffer;
 
 void Log(const char *fmt, ...) {
+    int screen_y = GetSizey(SLog.ID)-2;
     char buf[1024];
 
     va_list args;
@@ -17,12 +18,13 @@ void Log(const char *fmt, ...) {
     va_end(args);
 
     log_buffer.push_back(buf);
+    if(log_buffer.size()>screen_y)log_buffer.erase(log_buffer.begin());
 }
 
 void SLog_render(){
   int screen_y = GetSizey(SLog.ID)-2;
   for(int y = log_buffer.size()-1;y >= 0;y--){
-    mvwprintw(SLog.window,screen_y-y,1,"%s",log_buffer[y].c_str());
+    mvwprintw(SLog.window,(screen_y-log_buffer.size())+y+1,1,"%s",log_buffer[y].c_str());
   }
 }
 

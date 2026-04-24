@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 #include "./users.h"
 
@@ -37,4 +38,17 @@ void users_rem(User user){
       break;
     }
   }
+}
+
+bool nickname(User* user,std::string nickname){
+  bool retval = true;
+  for(int i = 0;i < nickname.size() && nickname[i]!='\0';i++){
+    if(nickname[i]>='a' && nickname[i]<='z'){}
+    else if(nickname[i]>='A' && nickname[i]<='Z'){}
+    else if(nickname[i]>='0' && nickname[i]<='9'){}
+    else if(nickname[i]=='_'){}
+    else retval = false;
+  }
+  if(retval)user->username = nickname;
+  return retval;
 }
