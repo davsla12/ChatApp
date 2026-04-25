@@ -11,8 +11,6 @@ struct User{
   ENetPeer* peer;
 };
 
-std::string commands(std::string str);
-
 std::vector<User> users_get();
 void users_add(User user);
 void users_rem(User user);

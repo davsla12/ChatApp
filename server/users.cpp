@@ -4,25 +4,6 @@
 
 std::vector<User> Users;
 
-std::string commands(std::string str){
-  str.erase(0,1);
-
-  size_t pos = str.find(' ');
-
-  std::string command;
-  std::string args;
-
-  if (pos == std::string::npos) {
-    command = str;
-    args = "";
-  } else {
-    command = str.substr(0, pos);
-    args = str.substr(pos + 1);
-  }
-
-  if(command == "ping") return "pong";
-  return command + ">" + args;
-}
 std::vector<User> users_get(){
   return Users;
 }
@@ -49,6 +30,6 @@ bool nickname(User* user,std::string nickname){
     else if(nickname[i]=='_'){}
     else retval = false;
   }
-  if(retval)user->username = nickname;
+  if(retval&&user)user->username = nickname;
   return retval;
 }

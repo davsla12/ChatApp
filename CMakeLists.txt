@@ -20,6 +20,7 @@ add_executable(server
     server/server.cpp
     server/helpers.cpp
     server/users.cpp
+    server/commands.cpp
 )
 find_library(ENET_LIBRARY enet)
 find_package(Curses REQUIRED)
