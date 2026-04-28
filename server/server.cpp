@@ -30,7 +30,7 @@ int main(){
 
             arg = arg.c_str(); // důležité!
 
-            printf("Zpráva: %s\n", arg.c_str());
+            printf("%s: %s\n", user->username.c_str(), arg.c_str());
 
             if (arg[0] == '/') {
               std::string buffer = command(arg);
