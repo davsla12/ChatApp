@@ -1,7 +1,15 @@
 #include <string>
+#include <map>
 
 #include "./commands.h"
 #include "./users.h"
+
+std::map<std::string,std::string(*)()> commands;
+
+int command_reg(std::string (*func)(),std::string name){
+commands[name] = func;
+return 0;
+}
 
 std::string list(){
   std::string retval;
@@ -31,5 +39,6 @@ std::string command(std::string str){
 
   if(command == "ping") return "pong";
   else if(command == "list") return list();
+  if(commands[command])return commands[command]();
   return "Unknown command";
 }

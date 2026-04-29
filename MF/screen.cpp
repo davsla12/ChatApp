@@ -68,7 +68,7 @@ int AddScane(Scane* add){
 }
 
 int RmScane(int ID){
-    for (int i = 0;i < Scanes.size();i++){
+    for (size_t i = 0;i < Scanes.size();i++){
         if (Scanes[i]->ID == ID){
             Scanes.erase(Scanes.begin()+ID);
             return 0;
@@ -98,7 +98,7 @@ int screen_update(){
         box(p->window,0,0);
         for (auto* d : p->sprites) {
             wattron(p->window,COLOR_PAIR(d->color_pair));
-            mvwprintw(p->window,d->y,d->x*2-1,d->mask.c_str());
+            mvwprintw(p->window,d->y,d->x*2-1,"%s",d->mask.c_str());
             wattroff(p->window,COLOR_PAIR(d->color_pair));
         }
         if(p->render != NULL)p->render();

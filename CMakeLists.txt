@@ -22,6 +22,9 @@ add_executable(server
     server/users.cpp
     server/commands.cpp
 )
+
+add_compile_options(-Wall -Wextra -Wpedantic)
+
 find_library(ENET_LIBRARY enet)
 find_package(Curses REQUIRED)
 add_library(MF
