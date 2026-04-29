@@ -4,7 +4,7 @@
 #include <MF/screen.h>
 
 #include "./server.h"
-#include "./Scanes/Hlavni.h"
+#include "./Scanes/Input.h"
 #include "./Scanes/Log.h"
 
 ENetEvent event;

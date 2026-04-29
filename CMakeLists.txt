@@ -10,7 +10,7 @@ add_executable(client
     client/client.cpp
     client/server.cpp
     client/Scanes/Log.cpp
-    client/Scanes/Hlavni.cpp
+    client/Scanes/Input.cpp
 )
 
 # =====================

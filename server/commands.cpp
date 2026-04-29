@@ -1,6 +1,17 @@
 #include <string>
 
 #include "./commands.h"
+#include "./users.h"
+
+std::string list(){
+  std::string retval;
+  std::vector<User> users = users_get();
+  for (int i = 0;i<users.size();i++){
+    retval.append(users[i].username);
+    retval.append(";");
+  }
+  return retval;
+}
 
 std::string command(std::string str){
   str.erase(0,1);
@@ -19,5 +30,6 @@ std::string command(std::string str){
   }
 
   if(command == "ping") return "pong";
-  return command + ">" + args;
+  else if(command == "list") return list();
+  return "Unknown command";
 }

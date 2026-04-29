@@ -20,6 +20,11 @@ int main(){
           event.peer->data = new User;
           send(event.peer,"Zadej nickname: ");
 
+          char ip[16];
+          enet_address_get_host_ip(&event.peer->address, ip, sizeof(ip));
+          printf("Klient %s:%u pripojen\n",ip,event.peer->address.port);
+          fflush(stdout);
+
           break;
 
         case ENET_EVENT_TYPE_RECEIVE:{
@@ -61,7 +66,7 @@ int main(){
               nickname(user,buffer);
               user->peer = event.peer;
               printf("Klient %s pripojen\n",buffer.c_str());
-              brodcastf(0,"%s pripojen\n",buffer.c_str());
+              brodcastf(0,"%s pripojen",buffer.c_str());
               sendf(event.peer,0,"Tvoje jmeno je %s",buffer.c_str());
               users_add(*user);
             }
@@ -73,7 +78,7 @@ int main(){
         case ENET_EVENT_TYPE_DISCONNECT: {
           User* user = (User*)event.peer->data;
           printf("Klient %s odpojen\n",user->username.c_str());
-          brodcastf(0,"%s odpojen\n",user->username.c_str());
+          brodcastf(0,"%s odpojen",user->username.c_str());
           users_rem(*user);
           delete (User*)event.peer->data;
           break;
