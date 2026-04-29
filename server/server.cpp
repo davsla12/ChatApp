@@ -38,7 +38,7 @@ int main(){
             printf("%s: %s\n", user->username.c_str(), arg.c_str());
 
             if (arg[0] == '/') {
-              std::string buffer = command(arg);
+              std::string buffer = command(arg,user->id);
               send(event.peer, buffer);
             }
 
@@ -54,12 +54,12 @@ int main(){
           }
 
           else{
-            User* user = (User*)event.peer->data;
+            //User* user = (User*)event.peer->data;
             std::string buffer = std::string((char*)event.packet->data,event.packet->dataLength-1);
             if(!nickname(nullptr,buffer))sendf(event.peer,0,"Neplatne jmeno: %s",buffer.c_str());
             else{
-              std::vector<User> users = users_get();
-              for(int i = 0;i < users.size();i++) if(users[i].username == buffer){
+              std::vector<User*> users = users_get();
+              for(int i = 0;i < users.size();i++) if(users[i]->username == buffer){
                 send(event.peer,"Toto jmeno je zabrane",0);
                 goto break_duplicit;
               }
@@ -68,7 +68,8 @@ int main(){
               printf("Klient %s pripojen\n",buffer.c_str());
               brodcastf(0,"%s pripojen",buffer.c_str());
               sendf(event.peer,0,"Tvoje jmeno je %s",buffer.c_str());
-              users_add(*user);
+              int id = users_add(user);
+              printf("Id: %d\n",id);
             }
           }
           break_duplicit:

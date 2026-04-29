@@ -3,7 +3,7 @@
 
 #include <string>
 
-int command_reg(std::string (*func)(),std::string name);
-std::string command(std::string str);
+int command_reg(std::string (*func)(std::string,int),std::string name);
+std::string command(std::string str,int user_id);
 
 #endif

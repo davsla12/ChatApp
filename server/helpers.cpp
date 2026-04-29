@@ -85,6 +85,6 @@ void brodcastf(int channelID, const char* fmt, ...){
 
   std::vector Users = users_get();
   for(int i = 0;i < Users.size();i++){
-    send(Users[i].peer,msg,channelID);
+    send(Users[i]->peer,msg,channelID);
   }
 }

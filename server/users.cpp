@@ -2,19 +2,23 @@
 #include <string>
 #include "./users.h"
 
-std::vector<User> Users;
+int IDs = 0;//0 is server
 
-std::vector<User> users_get(){
+std::vector<User*> Users;
+
+std::vector<User*> users_get(){
   return Users;
 }
 
-void users_add(User user){
+int users_add(User* user){
+  user->id = ++IDs;
   Users.push_back(user);
+  return IDs;
   //printf("Uzivatel %s pridan\n",user.username);
 }
 void users_rem(User user){
   for(int i = 0;i<Users.size();i++){
-    if(Users[i].username == user.username){
+    if(Users[i]->username == user.username){
       Users.erase(Users.begin() + i);
       break;
     }
