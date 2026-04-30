@@ -18,6 +18,7 @@ add_executable(client
 # =====================
 add_executable(server
     server/server.cpp
+    server/plugins.cpp
     server/helpers.cpp
     server/users.cpp
     server/commands.cpp

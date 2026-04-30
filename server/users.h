@@ -12,9 +12,10 @@ struct User{
   ENetPeer* peer;
 };
 
-std::vector<User*> users_get();
+const std::vector<User*> users_get();
+User* users_getbid(int users_id);
 int users_add(User* user);
-void users_rem(User user);
+void users_rem(int users_id);
 bool nickname(User* user,std::string nickname);
 
 #endif

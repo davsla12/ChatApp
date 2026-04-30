@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string>
 
+#include "./plugins.h"
 #include "./helpers.h"
 #include "./users.h"
 #include "./commands.h"
@@ -9,6 +10,7 @@
 int main(){
 
   ENetHost* server = sr_init();
+  plugins_load();
 
   ENetEvent event;
 
@@ -80,7 +82,7 @@ int main(){
           User* user = (User*)event.peer->data;
           printf("Klient %s odpojen\n",user->username.c_str());
           brodcastf(0,"%s odpojen",user->username.c_str());
-          users_rem(*user);
+          users_rem(user->id);
           delete (User*)event.peer->data;
           break;
         }

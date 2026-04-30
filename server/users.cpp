@@ -6,8 +6,15 @@ int IDs = 0;//0 is server
 
 std::vector<User*> Users;
 
-std::vector<User*> users_get(){
+const std::vector<User*> users_get(){
   return Users;
+}
+
+User* users_getbid(int users_id){
+  for(size_t i = 0;i < Users.size();i++){
+    if(Users[i]->id == users_id)return Users[i];
+  }
+  return 0;
 }
 
 int users_add(User* user){
@@ -16,9 +23,9 @@ int users_add(User* user){
   return IDs;
   //printf("Uzivatel %s pridan\n",user.username);
 }
-void users_rem(User user){
+void users_rem(int users_id){
   for(int i = 0;i<Users.size();i++){
-    if(Users[i]->username == user.username){
+    if(Users[i]->id == users_id){
       Users.erase(Users.begin() + i);
       break;
     }

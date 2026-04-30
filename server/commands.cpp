@@ -12,8 +12,8 @@ return 0;
 }
 
 std::string whoami(std::string args,int user_id){
-  std::vector<User*> users = users_get();
-  for(int i = 0;i < users.size();i++)if(users[i]->id == user_id)return users[i]->username;
+  User* user = users_getbid(user_id);
+  if(user)return user->username;
   return "given id: " + std::to_string(user_id);
 }
 
