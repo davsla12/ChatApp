@@ -1,9 +1,9 @@
 #ifndef COMMANDS_H
 #define COMMANDS_H
 
-#include <string>
+#include <MF/String.h>
 
-int command_reg(std::string (*func)(std::string,int),std::string name);
+extern "C" int command_reg(String (*func)(const char *,int),const char* name);
 std::string command(std::string str,int user_id);
 
 #endif

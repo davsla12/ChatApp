@@ -8,7 +8,6 @@
 #include "./commands.h"
 
 int main(){
-
   ENetHost* server = sr_init();
   plugins_load();
 
