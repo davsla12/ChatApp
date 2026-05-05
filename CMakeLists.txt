@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 project(ClientServerProject)
 
 set(CMAKE_CXX_STANDARD 17)
+add_compile_options(-Wall -Wextra -Wpedantic -g -O0)
 add_compile_definitions(_GLIBCXX_USE_CXX11_ABI=1)
 
 # =====================
@@ -24,8 +25,6 @@ add_executable(server
     server/users.cpp
     server/commands.cpp
 )
-
-add_compile_options(-Wall -Wextra -Wpedantic -g -O0)
 
 find_library(ENET_LIBRARY enet)
 find_package(Curses REQUIRED)

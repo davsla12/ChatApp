@@ -2,13 +2,14 @@
 #define USERS_H
 
 #include <enet/enet.h>
+#include <MF/String.h>
 
 #include <string>
 #include <vector>
 
 struct User{
   int id = 1;
-  std::string username;
+  String username;
   ENetPeer* peer;
 };
 

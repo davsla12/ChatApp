@@ -30,13 +30,13 @@ int main(){
 
         case ENET_EVENT_TYPE_RECEIVE:{
           User* user = (User*)event.peer->data;
-          if(!user->username.empty()){
+          if(user->username){
             std::string arg((char*)event.packet->data,
                     event.packet->dataLength);
 
             arg = arg.c_str(); // důležité!
 
-            printf("%s: %s\n", user->username.c_str(), arg.c_str());
+            printf("%s: %s\n", user->username, arg.c_str());
 
             if (arg[0] == '/') {
               std::string buffer = command(arg,user->id);
@@ -47,7 +47,7 @@ int main(){
               // echo zpět
 
 
-              brodcastf(0,"%s: %.*s",user->username.c_str(),
+              brodcastf(0,"%s: %.*s",user->username,
                 event.packet->dataLength,
                 event.packet->data);
             }
@@ -60,7 +60,7 @@ int main(){
             if(!nickname(nullptr,buffer))sendf(event.peer,0,"Neplatne jmeno: %s",buffer.c_str());
             else{
               std::vector<User*> users = users_get();
-              for(int i = 0;i < users.size();i++) if(users[i]->username == buffer){
+              for(int i = 0;i < users.size();i++) if(std::string(users[i]->username) == buffer){
                 send(event.peer,"Toto jmeno je zabrane",0);
                 goto break_duplicit;
               }
@@ -79,9 +79,10 @@ int main(){
 
         case ENET_EVENT_TYPE_DISCONNECT: {
           User* user = (User*)event.peer->data;
-          printf("Klient %s odpojen\n",user->username.c_str());
-          brodcastf(0,"%s odpojen",user->username.c_str());
+          printf("Klient %s odpojen\n",user->username);
+          brodcastf(0,"%s odpojen",user->username);
           users_rem(user->id);
+          free(user->username);
           delete (User*)event.peer->data;
           break;
         }

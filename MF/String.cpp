@@ -9,3 +9,8 @@ String String_std(const std::string& str) {
   strcpy(out, str.c_str());
   return out;
 }
+
+int String_len(String str){
+  if(str != nullptr)return strlen(str);
+  return 0;
+}

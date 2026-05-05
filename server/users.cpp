@@ -41,6 +41,6 @@ bool nickname(User* user,std::string nickname){
     else if(nickname[i]=='_'){}
     else retval = false;
   }
-  if(retval&&user)user->username = nickname;
+  if(retval&&user)user->username = String_std(nickname);
   return retval;
 }

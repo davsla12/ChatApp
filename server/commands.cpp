@@ -68,5 +68,6 @@ std::string command(std::string str,int user_id){
   retval = it->second(args.c_str(), user_id);
 
   std::string retstr(retval);
+  free(retval);
   return retstr;
 }
