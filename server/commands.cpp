@@ -6,6 +6,7 @@
 
 #include "./commands.h"
 #include "./users.h"
+#include "./plugins.h"
 
 std::map<std::string,CommandFunc> commands;
 
@@ -68,6 +69,6 @@ std::string command(std::string str,int user_id){
   retval = it->second(args.c_str(), user_id);
 
   std::string retstr(retval);
-  free(retval);
+  Plugin_free(retval);
   return retstr;
 }

@@ -12,6 +12,10 @@ extern "C" String whoami(const char* args,int user_id){
 
 }
 
+
+extern "C" void Free(void* ptr){
+free(ptr);
+}
 //Basic functions
 extern "C" int Version(){return 1;}
 

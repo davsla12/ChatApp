@@ -4,9 +4,12 @@
 #include <map>
 
 #include "../plugins/API.h"
-#include "commands.h"
+#include "./commands.h"
+#include "./plugins.h"
 
 void* handle;
+
+Plugin plugin;
 
 void cerror(){
   char* error = dlerror();
@@ -46,6 +49,15 @@ int plugins_load(){
 
   Init(api_commands);
 
+  using free_t = void(*)(void*);
+  free_t Free = (free_t)dlsym(handle,"Free");
+  cerror();
+  plugin.free = Free;
+
   //dlclose(handle);
   return 0;
+}
+
+void Plugin_free(void* ptr){
+  plugin.free(ptr);
 }
