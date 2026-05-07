@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 project(ClientServerProject)
 
 set(CMAKE_CXX_STANDARD 17)
-add_compile_options(-Wall -g -fsanitize=address)
+add_compile_options(-Wall -g ) #-fsanitize=address)
 add_compile_definitions(_GLIBCXX_USE_CXX11_ABI=1)
 
 add_library(MF

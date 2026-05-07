@@ -20,24 +20,6 @@ extern "C" int command_reg(String (*func)(const char*,int user_id),const char* n
   return 0;
 }
 
-String whoami(const char* args,int user_id){
-  User* user = users_getbid(user_id);
-  if(user)return String_std(user->username);
-
-  std::string tmp = "given id:" + std::to_string(user_id);
-  return String_std(tmp);
-}
-
-String list(const char* args,int user_id){
-  std::string retval;
-  std::vector<User*> users = users_get();
-  for (int i = 0;i<users.size();i++){
-    retval.append(users[i]->username);
-    retval.append(";");
-  }
-  return String_std(retval);
-}
-
 std::string command(std::string str,int user_id){
   str.erase(0,1);
 
@@ -68,7 +50,7 @@ std::string command(std::string str,int user_id){
 
   retval = it->second(args.c_str(), user_id);
 
-  std::string retstr(retval);
-  Plugin_free(retval);
+  std::string retstr(retval.data);
+  Plugin_free(retval.data);
   return retstr;
 }

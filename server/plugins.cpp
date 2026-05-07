@@ -41,13 +41,16 @@ int plugins_load(){
   exit(3);
   }
 
-  using init_t = int(*)(API_commands);
+  using init_t = int(*)(API_s);
   init_t Init = (init_t) dlsym(handle,"Init");
 
   cerror();
-  API_commands api_commands{.command_reg=command_reg};
+  API_s apis;
+  apis.commands = {.command_reg = command_reg};
+  apis.users = {.users_getbid = users_getbid,
+                .users_getstr = users_getstr};
 
-  Init(api_commands);
+  Init(apis);
 
   using free_t = void(*)(void*);
   free_t Free = (free_t)dlsym(handle,"Free");
@@ -60,4 +63,8 @@ int plugins_load(){
 
 void Plugin_free(void* ptr){
   plugin.free(ptr);
+}
+
+void* Plugin_realloc(String ptr){
+  
 }

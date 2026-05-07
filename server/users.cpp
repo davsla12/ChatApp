@@ -17,6 +17,15 @@ User* users_getbid(int users_id){
   return 0;
 }
 
+String users_getstr(){
+  std::string retval;
+  for(size_t i = 0;i<Users.size();i++){
+    retval.append(std::to_string(Users[i]->id));
+    if(i<Users.size()-1)retval.append(";");
+  }
+  return String_std(retval);
+}
+
 int users_add(User* user){
   user->id = ++IDs;
   Users.push_back(user);

@@ -7,7 +7,7 @@
 
 extern "C"{
 
-typedef char* (*CommandFunc)(const char*, int);
+typedef String (*CommandFunc)(const char* args, int user_id);
 
 struct API_commands{
   int (* command_reg)(String (*func)(const char*,int),const char* name);
@@ -15,6 +15,7 @@ struct API_commands{
 
 struct API_users{
   User* (*users_getbid)(int users_id);
+  String (*users_getstr)();
 };
 
 struct API_s{

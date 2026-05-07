@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.16)
 project(ClientServerProject)
 
-set(CMAKE_CXX_STANDARD 17)
-add_compile_options(-Wall -Wextra -Wpedantic -g -fsanitize=address)
-add_link_options(-fsanitize=address)
+set(CMAKE_CXX_STANDARD 20)
+add_compile_options(-Wall -Wextra -Wpedantic -g ) #-fsanitize=address)
+#add_link_options(-fsanitize=address)
 add_compile_definitions(_GLIBCXX_USE_CXX11_ABI=1)
 
 # =====================
