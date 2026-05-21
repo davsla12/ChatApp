@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <sstream>
+#include <string>
 #include <MF/String.h>
 
 #include "../API.h"
@@ -13,7 +14,7 @@ extern "C" String ping(const char* args,int user_id){
 
 extern "C" String whoami(const char* args,int user_id){
   User* user = api.users.users_getbid(user_id);
-  if(user)return user->username;
+  if(user)return String_std(std::string(user->username.data));
 
   std::string tmp = "given id:" + std::to_string(user_id);
   return String_std(tmp);
