@@ -15,7 +15,7 @@ struct User{
 
 const std::vector<User*> users_get();
 String users_getstr();
-User* users_getbid(int users_id);
+User users_getbid(int users_id);
 int users_add(User* user);
 void users_rem(int users_id);
 bool nickname(User* user,std::string nickname);

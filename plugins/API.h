@@ -14,7 +14,7 @@ struct API_commands{
 };
 
 struct API_users{
-  User* (*users_getbid)(int users_id);
+  User (*users_getbid)(int users_id);
   String (*users_getstr)();
 };
 

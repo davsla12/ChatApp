@@ -10,6 +10,5 @@ struct String{
 };
 
 String String_std(const std::string& str);//convert from std::string
-int String_len(String);
-
+String String_dup(String str);
 #endif

@@ -11,3 +11,11 @@ String String_std(const std::string& str) {
   out.size = str.size();
   return out;
 }
+
+String String_dup(String str){
+  String out;
+  out.data = (char*)malloc(str.size);
+  strcpy(out.data, str.data);
+  out.size = str.size;
+  return out;
+}

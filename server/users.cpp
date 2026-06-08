@@ -10,11 +10,17 @@ const std::vector<User*> users_get(){
   return Users;
 }
 
-User* users_getbid(int users_id){
+User users_getbid(int users_id){
+  User retval;
+  retval.id = -1;
   for(size_t i = 0;i < Users.size();i++){
-    if(Users[i]->id == users_id)return Users[i];
+    if(Users[i]->id == users_id){
+      retval = *Users[i];
+      retval.username = String_dup(Users[i]->username);
+      return retval;
+    }
   }
-  return 0;
+  return retval;
 }
 
 String users_getstr(){

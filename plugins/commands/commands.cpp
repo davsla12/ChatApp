@@ -13,8 +13,8 @@ extern "C" String ping(const char* args,int user_id){
 }
 
 extern "C" String whoami(const char* args,int user_id){
-  User* user = api.users.users_getbid(user_id);
-  if(user)return String_std(std::string(user->username.data));
+  User user = api.users.users_getbid(user_id);
+  if(user.id>=0)return user.username;
 
   std::string tmp = "given id:" + std::to_string(user_id);
   return String_std(tmp);
@@ -28,7 +28,7 @@ extern "C" String list(const char* args,int user_id){
   char* token = strtok(Slist.data,";");
   while(token != NULL){
     int cislo = atoi(token);
-    retval.append(std::string(api.users.users_getbid(cislo)->username.data));
+    retval.append(std::string(api.users.users_getbid(cislo).username.data));
     retval.append(";");
     token = strtok(NULL,";");
   }
