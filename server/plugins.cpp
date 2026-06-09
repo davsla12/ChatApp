@@ -6,6 +6,7 @@
 #include "../plugins/API.h"
 #include "./commands.h"
 #include "./plugins.h"
+#include "./helpers.h"
 
 void* handle;
 
@@ -49,7 +50,7 @@ int plugins_load(){
   apis.commands = {.command_reg = command_reg};
   apis.users = {.users_getbid = users_getbid,
                 .users_getstr = users_getstr};
-
+  apis.helpers.send_bid = send_bid;
   Init(apis);
 
   using free_t = void(*)(void*);

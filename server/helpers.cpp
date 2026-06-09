@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string>
 #include <cstdarg>
-
+#include <MF/String.h>
 #include "users.h"
 
 ENetHost* server;
@@ -41,9 +41,16 @@ int send(ENetPeer* peer,std::string msg,int ChannelID){
         msg.size(),
         ENET_PACKET_FLAG_RELIABLE
     );
-
     return enet_peer_send(peer, ChannelID, packet);
 }
+
+int send_bid(int id,String msg,int ChannelID){
+  User user = users_getbid(id);
+  int retval = send(user.peer,std::string(msg.data),ChannelID);
+  free(msg.data);
+  return retval;
+}
+
 int sendf(ENetPeer* peer, int channelID, const char* fmt, ...) {
     va_list args;
     va_start(args, fmt);

@@ -17,10 +17,14 @@ struct API_users{
   User (*users_getbid)(int users_id);
   String (*users_getstr)();
 };
+struct API_helpers{
+  int (*send_bid)(int id,String msg,int ChannelID);
+};
 
 struct API_s{
   API_commands commands;
   API_users users;
+  API_helpers helpers;
 };
 }//extern
 #endif
