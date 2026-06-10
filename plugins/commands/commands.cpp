@@ -35,7 +35,7 @@ extern "C" String list(const char* args,int user_id){
 
   return String_std(retval);
 }
-
+/*
 extern "C" String msg(const char* args,int user_id){
   std::string strArgs(args);
   size_t firstSpace = strArgs.find(' ');
@@ -61,7 +61,7 @@ extern "C" String msg(const char* args,int user_id){
     token = strtok(NULL,";");
   }
   return String_std("Uzivatel nenalezen");
-}
+}*/
 
 extern "C" String args(const char* args,int user_id){
 std::string retval(args);
@@ -80,7 +80,7 @@ extern "C" int Init(API_s apis){
   api.commands.command_reg(&ping,"ping");
   api.commands.command_reg(&whoami,"whoami");
   api.commands.command_reg(&list,"list");
-  api.commands.command_reg(&msg,"msg");
+  //api.commands.command_reg(&msg,"msg");
   api.commands.command_reg(&args,"args");
   return 0;
 }

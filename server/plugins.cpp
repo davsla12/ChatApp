@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <cstdlib>
 #include <map>
+#include <string>
+#include <dirent.h>
+#include <fnmatch.h>
 
 #include "../plugins/API.h"
 #include "./commands.h"
@@ -9,14 +12,16 @@
 #include "./helpers.h"
 
 void* handle;
+static int IDs = 0;
 
 Plugin plugin;
+std::vector<Plugin> plugins;
 
 void cerror(){
   char* error = dlerror();
 
   if(error){
-    printf("%s",error);
+    fprintf(stderr,"%s\n",error);
     dlclose(handle);
     exit(2);
   }
@@ -24,7 +29,18 @@ void cerror(){
 
 
 int plugins_load(){
-  handle = dlopen("../plugins/build/libcommands.so",RTLD_LAZY);
+  DIR* dir = opendir("../plugins/build");
+  if(dir == NULL){
+    perror("../plugins/build\n");
+    exit(1);
+  }
+  struct dirent* item;
+
+  while((item = readdir(dir)) != NULL){
+    if (fnmatch("lib*.so", item->d_name, 0) != 0) {continue;}
+    printf("%s\n", item->d_name);
+
+  handle = dlopen(std::string(std::string("../plugins/build/")+std::string(item->d_name)).c_str(),RTLD_LAZY);
   if(!handle){
     printf("%s\n",dlerror());
     exit(1);
@@ -41,6 +57,7 @@ int plugins_load(){
   printf("Spatna verze pluginu\n");
   exit(3);
   }
+  plugin.version = Version();
 
   using init_t = int(*)(API_s);
   init_t Init = (init_t) dlsym(handle,"Init");
@@ -58,7 +75,10 @@ int plugins_load(){
   cerror();
   plugin.free = Free;
 
-  //dlclose(handle);
+  plugin.handle = handle;
+  plugin.id = IDs++;
+  plugins.push_back(plugin);
+  }
   return 0;
 }
 

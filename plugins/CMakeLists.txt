@@ -17,3 +17,9 @@ add_library(commands SHARED
     commands/commands.cpp
 )
 target_link_libraries(commands PRIVATE MF)
+
+add_library(msg SHARED
+    msg/init.cpp
+    msg/commands.cpp
+)
+target_link_libraries(msg PRIVATE MF)

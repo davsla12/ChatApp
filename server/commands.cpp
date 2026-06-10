@@ -51,6 +51,6 @@ std::string command(std::string str,int user_id){
   retval = it->second(args.c_str(), user_id);
 
   std::string retstr(retval.data);
-  Plugin_free(retval.data);
+  free(retval.data);
   return retstr;
 }
