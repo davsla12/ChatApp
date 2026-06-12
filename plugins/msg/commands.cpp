@@ -22,8 +22,14 @@ extern "C" String msg(const char* args,int user_id){
   while(token != NULL){
     int cislo = atoi(token);
     if(std::string(api.users.users_getbid(cislo).username.data) == name){
-      api.helpers.send_bid(cislo,String_std(msg),0);
-      return String_std("Poslano");
+      std::string retval;
+      retval.append(api.users.users_getbid(user_id).username.data);
+      retval.append("->");
+      retval.append(name);
+      retval.append(": ");
+      retval.append(msg);
+      api.helpers.send_bid(cislo,String_std(retval),0);
+      return String_std(retval);
     }
     token = strtok(NULL,";");
   }
